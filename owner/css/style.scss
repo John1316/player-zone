@@ -1,0 +1,62 @@
+$maincolor : #388004;
+
+.text-main{
+    color: $maincolor;
+}
+.btn-main{
+    color: #fff;
+    background-color: $maincolor;
+}
+.bg-main{
+    background-color: $maincolor;
+}
+.border-1{
+    border: $maincolor 1px solid;
+}
+.border-2{
+    border: $maincolor 2px solid;
+}
+.h1-3rem{
+    font-size: 3.5rem;
+}
+.mt-7{
+    margin-top: 7rem;
+}
+@media screen and (max-width:575px)
+{
+    .container{
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+}
+// generalls
+body{
+    font-family: 'Roboto', sans-serif;
+}
+// navbar
+.navbar{
+    padding: 15px ;
+    .navbar-brand{
+        font-size: 20px;
+    }
+}
+.navbar-dark{
+    .navbar-nav {
+        .nav-link{
+            color: #fff;
+            font-size: 20px;
+        }
+    }
+}
+.table-responsive{
+    overflow-y: auto;
+}
+// dashboard index
+.dashboard-details{
+    .card{
+        border: 2px solid $maincolor;
+        i{
+            color: $maincolor;
+        }
+    }
+}
