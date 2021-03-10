@@ -22,20 +22,20 @@
 	<!--end navbar-->
     <header id="header" class="header justify-content-center text-center text-white d-flex align-items-center">
         <div class="header__caption container">
-            <h1 class="text-uppercase mb-4 text-success">Lorem ipsum dolor sit amet consectetur.</h1>
+            <h1 class="text-uppercase mb-4 text-success">Playerzone</h1>
             <h5 class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus soluta earum cumque accusamus dolorum autem atque aut rerum at placeat!</h5>
         </div>
     </header>
 
     <section class="our-service py-5">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-lg-6 col-12 py-5">
                     <h1 class="text-main h1-3rem">Our service</h1>
                     <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error quidem eligendi officiis veniam iste quasi consequuntur? Deleniti molestiae sed labore, aperiam praesentium exercitationem iste rem temporibus a dolorem illum, aliquid odit adipisci minus, minima eveniet perferendis dicta iure laboriosam itaque!</p>
                 </div>
                 <div class="col-lg-6 col-12">
-                    <img src="images/undraw_junior_soccer_6sop.svg" class="img-fluid" alt="">
+                    <img src="images/service_img.svg" class="img-fluid" alt="">
                 </div>
             </div>
         </div>
@@ -43,7 +43,7 @@
 
     <section class="how-we-work py-5">
         <div class="container">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-12 text-center">
                     <h1 class="mb-4 text-main h1-3rem">How we work</h1>
                 </div>
@@ -82,7 +82,15 @@
             </div>
         </div>
     </section>
-
+    <section class="banner">
+        <div class="container">
+            <a href="login.php">
+                <div class="row no-guuters justify-content-center">
+                    <img src="images/banner.jpg" style="height:200px; width:100%;" alt="">
+                </div>
+            </a>    
+        </div>
+    </section>
     <section class="contactus py-5">
         <div class="container">
             <div class="row d-flex align-items-center">
@@ -92,13 +100,13 @@
 
                         <li class="my-3"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem atque aut tenetur vel esse unde necessitatibus quasi accusamus sint aspernatur.</p></li>
                         <li class="my-3"><i class="fas fa-address-book mr-3"></i>Conatct Details:</li>
-                        <li class="my-3 py-2"><i class="fa fa-location-arrow mr-3"></i>Lorem, ipsum dolor.</li>
-                        <li class="my-3 py-2"><i class="fas fa-mobile-alt mr-3"></i>01149917963</li>
+                        <li class="my-3 py-2"><i class="fa fa-location-arrow mr-3"></i>Helwan</li>
+                        <li class="my-3 py-2"><i class="fas fa-mobile-alt mr-3"></i>+20 115 838 7533</li>
                         <li class="my-3 py-2"><i class="fas fa-at mr-2"></i>Kickoff@gmail.com</li>
                     </ul>
                 </div>
                 <div class="col-lg-6 col-sm-12">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3078.82517068075!2d31.1524446739454!3d29.98333748655518!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145845edbf2545fb%3A0x2d83fba2be0cf93c!2sNazlet%20Al%20Batran%2C%20Al%20Haram%2C%20Giza%20Governorate!5e0!3m2!1sen!2seg!4v1591623908775!5m2!1sen!2seg" width="550" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3078.82517068075!2d31.1524446739454!3d29.98333748655518!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145845edbf2545fb%3A0x2d83fba2be0cf93c!2sNazlet%20Al%20Batran%2C%20Al%20Haram%2C%20Giza%20Governorate!5e0!3m2!1sen!2seg!4v1591623908775!5m2!1sen!2seg" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
                 </div>
             </div>
         </div>
@@ -110,7 +118,7 @@
 
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>

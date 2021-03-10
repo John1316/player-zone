@@ -11,7 +11,7 @@ session_start();
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/all.css">
         <link rel="stylesheet" href="css/dashboard_style.css">
-        <title>Reviews</title>
+        <title>owner</title>
     </head>
     <body>
 
@@ -31,27 +31,25 @@ session_start();
                                     <table class="table table-striped min-height-table">
                                         <thead>
                                             <tr>
-                                                <th scope="col">review id</th>
-                                                <th scope="col">Playfield</th>
-                                                <th scope="col">User</th>
-                                                <th scope="col">Scale</th>
-                                                <th scope="col">message</th>
+                                                <th scope="col">owner id</th>
+                                                <th scope="col">Full name</th>
+                                                <th scope="col">Username</th>
+                                                <th scope="col">Phone</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             require_once('connection.php');
-                                            $review = "SELECT review.review_id ,  review.scale , review.msg,  playfields.name , users.full_name FROM review INNER JOIN playfields on playfields.id = review.playfield_id INNER JOIN users on review.users_id = users.users_id";
-                                            $query = mysqli_query($conn,$review) or die("Error:".mysqli_error($conn)) ;
+                                            $owner = "SELECT * FROM owner ORDER by owner_id ASC";
+                                            $query = mysqli_query($conn,$owner) or die("Error:".mysqli_error($conn)) ;
                                             $result= mysqli_fetch_array($query);
                                             do{
                                             ?>
                                             <tr>
-                                                <th scope="row"><?php echo $result['review_id'] ?></th>
-                                                <td><?php echo $result['name'] ?></td>
-                                                <td><?php echo $result['full_name'] ?></td>
-                                                <td><?php echo $result['scale'] ?></td>
-                                                <td><?php echo substr($result['msg'],0,250).'...' ?></td>
+                                                <th scope="row"><?php echo $result ['owner_id']; ?></th>
+                                                <td><?php echo $result ['name']; ?></td>
+                                                <td><?php echo $result ['uname']; ?></td>
+                                                <td><?php echo $result ['phone']; ?></td>
                                             </tr>
                                             <?php
                                             }

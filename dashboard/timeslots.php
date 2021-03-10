@@ -25,10 +25,10 @@ if (isset($_POST['update'])) {
     $id = $_POST['pid'];
     $update_time = $_POST['utime']; 
 
-$up= "UPDATE time_slots SET time='$update_time' , value='0' WHERE id='$id'"; 
+    $up= "UPDATE time_slots SET time='$update_time' , value ='0' WHERE id='$id'"; 
 
-if(!mysqli_query($conn,$up)){ 
-    die('Error:'. mysqli_error($conn));
+    if(!mysqli_query($conn,$up)){ 
+        die('Error:'. mysqli_error($conn));
     } else {
         $updated ="Your time slots updated successfully";
     }
@@ -81,12 +81,18 @@ if(!mysqli_query($conn,$up)){
                                             $query = mysqli_query($conn,$timeslots) or die("Error:".mysqli_error($conn)) ;
                                             $result= mysqli_fetch_array($query);
                                             do{
+                                                if ($result['value'] == 1) {
+                                                    $value = "<span class='btn btn-success'>available</span>";
+                                                } else {
+                                                    $value = "<span class='btn btn-danger'>Unavailable</span>";
+                                                }
+                                                
                                             ?>
                                                 <tr>
                                                     <th scope="row"><?php echo $result ['id']; ?></th>
                                                     <td><?php echo $result ['time']; ?></td>
-                                                    <td><?php echo $result ['value']; ?></td>
-                                                    <td><button data-toggle="modal" data-target="#update<?php echo $result ['id']; ?>" class="btn btn-info"><i class="fas fa-minus-square"></i></button></td>
+                                                    <td><?php echo $value ?></td>
+                                                    <td><button data-toggle="modal" data-target="#update<?php echo $result ['id']; ?>" class="btn btn-danger"><i class="fas fa-minus"></i></button></td>
                                                 </tr>
                                                 <div class="modal fade" id="update<?php echo $result ['id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -104,7 +110,7 @@ if(!mysqli_query($conn,$up)){
                                                                             <div class="col-6 my-2"><input name="pid" type="hidden" value="<?php echo $result ['id']; ?>" class="form-control validate" required /></div>
                                                                             <div class="col-12 my-2"><label for="name">Time</label><input name="utime" type="text" value="<?php echo $result ['time']; ?>" class="form-control validate" required /></div>
                                                                             
-                                                                            <button type="submit" name="update" class="btn btn-primary btn-block my-3">Delete time</button>
+                                                                            <button type="submit" name="update" class="btn btn-main btn-block my-3">Delete time</button>
                                                                         </div>
                                                                     </form>
                                                                 </div>
@@ -177,7 +183,7 @@ if(!mysqli_query($conn,$up)){
                             <form action="timeslots.php" method="post" enctype="multipart/form-data">
                                 <div class="row">
                                     <div class="col-6 my-2"><label for="name">Time slots</label><input name="time" type="time" class="form-control validate" required /></div>
-                                    <button type="submit" name="add" class="btn btn-primary btn-block my-3">Add date</button>
+                                    <button type="submit" name="add" class="btn btn-main btn-block my-3">Add date</button>
                                 </div>
                             </form>
                         </div>
@@ -201,7 +207,7 @@ if(!mysqli_query($conn,$up)){
                         </div>
                         <div class="modal-footer border-0">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" name="reset" class="btn btn-primary">Reset changes</button>
+                            <button type="submit" name="reset" class="btn btn-main">Reset changes</button>
                         </div>
                     </div>
                 </form>

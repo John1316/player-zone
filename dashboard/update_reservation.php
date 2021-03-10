@@ -3,34 +3,20 @@ require_once('connection.php');
 session_start();
     if (isset($_POST['notification_form'])) {
     $notid = $_POST['notid'];
-    $notplayfield = $_POST['notplayfield']; 
-    $notusers_id = $_POST['notusers_id']; 
-    $nothours = $_POST['nothours']; 
+    
     $notstatus = $_POST['notstatus']; 
-    $notuprice = $_POST['notuprice']; 
-    $notorder_date = $_POST['notorder_date']; 
-    $notplay_status = $_POST['notplay_status']; 
-    $notdate = $_POST['notdate']; 
-    $nottime = $_POST['nottime']; 
-    $notvisa = $_POST['notvisa']; 
+    
     $notmsg = $_POST['notmsg']; 
     $notification_sql= "UPDATE reservation SET 
-        playfield_id='$notplayfield' ,
-        users_id='$notusers_id',
-        hours='$nothours' ,
+        
         status='$notstatus' ,
-        uprice='$notuprice' ,
-        reservation_date='$notorder_date' ,
-        play_status='$notplay_status' ,
-        visa='$notvisa' ,
-        date_reservation='$notdate' ,
-        time_reservation='$nottime' ,
+        
         notification='$notmsg' WHERE reservation_id='$notid'"; 
 
     if(!mysqli_query($conn,$notification_sql)){ 
         die('Error:'. mysqli_error($conn));
     } else {
-        $notification_msg ="Data sent successfully";
+        $notification_msg ="Information changed successfully";
     }
 }
 
@@ -45,7 +31,7 @@ session_start();
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/all.css">
         <link rel="stylesheet" href="css/dashboard_style.css">
-        <title>Reservations</title>
+        <title>Reservations | update</title>
     </head>
     <body>
 
@@ -73,27 +59,19 @@ session_start();
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th scope="col">Reservation id</th>
-                                                <th scope="col">playfield Name</th>
-                                                <th scope="col">User Name</th>
-                                                <th scope="col">User Phone</th>
-                                                <th scope="col">Hours</th>
+                                                <th scope="col">User id</th>
+                                                
                                                 <th scope="col">Status</th>
-                                                <th scope="col">Reservation Date</th>
-                                                <th scope="col">Date reservation</th>
-                                                <th scope="col">Time reservation</th>
-                                                <th scope="col">Play status</th>
-                                                <th scope="col">Visa</th>
-                                                <th scope="col">Unit price</th>
-                                                <th scope="col">Total price</th>
-
+                                                
+                                                <th scope="col">Notification</th>
+                                                <th scope="col">&nbsp;</th>
+                                                <th scope="col">&nbsp;</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php
                                             require_once('connection.php');
-                                            // $reservation = "SELECT * FROM reservation ORDER by reservation_id ASC";
-                                            $reservation = "SELECT reservation.reservation_id,  playfields.name , users.full_name, users.phone , reservation.status , reservation.hours, reservation.uprice , reservation.play_status , reservation.reservation_date , reservation.date_reservation , reservation.time_reservation, reservation.visa, reservation.notification  FROM reservation INNER JOIN playfields on playfields.id = reservation.playfield_id INNER JOIN users on reservation.users_id = users.users_id ORDER by reservation_id ASC";
-                                            // SELECT reservation.reservation_id, reservation.users_id, reservation.status , reservation.status, reservation.uprice , reservation.play_status , playfields.id , users.full_name, users.phone FROM reservation INNER JOIN playfields on playfields.id = reservation.playfield_id INNER JOIN users on reservation.users_id = users.users_id
+                                            $reservation = "SELECT * FROM reservation ORDER by reservation_id ASC";
                                             $query = mysqli_query($conn,$reservation) or die("Error:".mysqli_error($conn)) ;
                                             $result= mysqli_fetch_array($query);
                                             do{
@@ -107,19 +85,12 @@ session_start();
                                                 ?>
                                             <tr>
                                                 <td><?php echo $result ['reservation_id']; ?></td>
-                                                <td><?php echo $result ['name']; ?></td>
-                                                <td><?php echo $result ['full_name']; ?></td>
-                                                <td><?php echo $result ['phone']; ?></td>
-                                                <td><?php echo $result ['hours']; ?></td>
+                                                <td><?php echo $result ['users_id']; ?></td>
                                                 <td><?php echo $status ?></td>
-                                                <td><?php echo $result ['reservation_date']; ?></td>
-                                                <td><?php echo $result ['time_reservation']; ?></td>
-                                                <td><?php echo $result ['date_reservation']; ?></td>
-                                                <td><?php echo $result ['play_status']; ?></td>
-                                                <td><?php echo substr($result ['visa'],0,10).'...' ?></td>
-                                                <td><?php echo $result ['uprice']; ?></td>
-                                                <td><?php echo $total ?></td>
-                                                
+                                            
+                                                <td><?php echo $result['notification'] ?></td>
+                                                <td><button data-toggle="modal" data-target="#message<?php echo $result ['reservation_id']; ?>" class="btn btn-info"><i class="fas fa-envelope"></i></button></td>
+                                                <td><button data-toggle="modal" data-target="#status<?php echo $result ['reservation_id']; ?>" class="btn btn-success"><i class="fas fa-check"></i></button></td>
                                             </tr>
                                                 <div class="modal fade" id="message<?php echo $result ['reservation_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -135,16 +106,9 @@ session_start();
                                                                 <form action="" method="post" enctype="multipart/form-data">
                                                                     <div class="row no-gutters">
                                                                         <input type="hidden" name="notid" value="<?php echo $result ['reservation_id']; ?> ?>">
-                                                                        <input name="notplayfield" type="hidden" value="<?php echo $result ['playfield_id']; ?>" class="form-control validate" required />
-                                                                        <input name="notusers_id" type="hidden" value="<?php echo $result ['users_id']; ?>" class="form-control validate" required />
-                                                                        <input name="nothours" type="hidden" value="<?php echo $result ['hours']; ?>" class="form-control validate" required />
+
                                                                         <input name="notstatus" type="hidden" value="<?php echo $result ['status']; ?>" class="form-control validate" required />
-                                                                        <input name="notuprice" type="hidden" value="<?php echo $result ['uprice']; ?>" class="form-control validate" required />
-                                                                        <input name="notorder_date" type="hidden" value="<?php echo $result ['reservation_date']; ?>" class="form-control validate" required />
-                                                                        <input name="notplay_status" type="hidden" value="<?php echo $result ['play_status']; ?>" class="form-control validate" required />
-                                                                        <input name="notvisa" type="hidden" value="<?php echo $result ['visa']; ?>" class="form-control validate" required />
-                                                                        <input name="notdate" type="hidden" value="<?php echo $result ['date_reservation']; ?>" class="form-control validate" required />
-                                                                        <input name="nottime" type="hidden" value="<?php echo $result ['time_reservation']; ?>" class="form-control validate" required /></div>
+                                                                        
                                                                         <div class="col-12 my-2"><label for="notmsg">Notification</label><textarea name="notmsg" row="5" col="3" type="text" class="form-control validate" required><?php echo $result ['notification']; ?></textarea></div>
                                                                         <div class="col-12 my-2"><button type="submit" name="notification_form" class="btn btn-main btn-block my-3">Send Notification</button></div>
                                                                     </div>
@@ -171,16 +135,9 @@ session_start();
                                                                         <h6>Do you want to approve reservation <?php echo $result ['reservation_id']; ?></h6>
 
                                                                         <input type="hidden" name="notid" value="<?php echo $result ['reservation_id']; ?> ?>">
-                                                                        <input name="notplayfield" type="hidden" value="<?php echo $result ['playfield_id']; ?>" class="form-control validate" required />
-                                                                        <input name="notusers_id" type="hidden" value="<?php echo $result ['users_id']; ?>" class="form-control validate" required />
-                                                                        <input name="nothours" type="hidden" value="<?php echo $result ['hours']; ?>" class="form-control validate" required />
+                                                                        
                                                                         <input name="notstatus" type="hidden" value="Approved" class="form-control validate" required />
-                                                                        <input name="notuprice" type="hidden" value="<?php echo $result ['uprice']; ?>" class="form-control validate" required />
-                                                                        <input name="notorder_date" type="hidden" value="<?php echo $result ['reservation_date']; ?>" class="form-control validate" required />
-                                                                        <input name="notplay_status" type="hidden" value="<?php echo $result ['play_status']; ?>" class="form-control validate" required />
-                                                                        <input name="notvisa" type="hidden" value="<?php echo $result ['visa']; ?>" class="form-control validate" required />
-                                                                        <input name="notdate" type="hidden" value="<?php echo $result ['date_reservation']; ?>" class="form-control validate" required />
-                                                                        <input name="nottime" type="hidden" value="<?php echo $result ['time_reservation']; ?>" class="form-control validate" required /></div>
+                                                                        
                                                                         <input name="notmsg" type="hidden" value="<?php echo $result ['notification']; ?>" class="form-control validate" required /></div>
                                                                         <div class="col-12 my-2"><button type="submit" name="notification_form" class="btn btn-main btn-block my-3">Approve</button></div>
                                                                     </div>

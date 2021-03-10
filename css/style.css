@@ -32,7 +32,7 @@ body {
 }
 
 .navbar {
-  padding: 15px 0;
+  padding: 15px;
 }
 
 .navbar .navbar-brand {
@@ -46,8 +46,10 @@ body {
 
 .header {
   height: 650px;
-  background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.5), rgba(2, 34, 6, 0.4)), url(../images/playfield.jpg);
+  background-image: linear-gradient(to bottom right, rgba(0, 0, 0, 0.5), rgba(2, 34, 6, 0.4)), url(../images/cover.jpeg);
   background-size: 100% 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .playfield .card img {

@@ -1,5 +1,6 @@
 .text-main {
   color: #388004;
+
 }
 
 .btn-main {
@@ -41,7 +42,24 @@ body {
 .navbar {
   padding: 15px;
 }
+.login{
+  background: linear-gradient(to right bottom, rgba(0, 0, 0, 0.6), rgba(56, 128, 4, 0.6));
+  height: 100vh;
+}
+@media screen and (max-width: 450px) {
+  .login {
+    height: 120vh;
+  }
+  .login-sec .card {
+    text-align: center;
+  }
+}
 
+@media screen and (max-width: 376px) {
+  .login {
+    height: 140vh;
+  }
+}
 .navbar .navbar-brand {
   font-size: 20px;
 }

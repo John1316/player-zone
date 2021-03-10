@@ -47,12 +47,11 @@ if (isset($_POST['submit'])) {
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/dashboard_style.css">
         <style>
-                .card{
-                    width: 35%;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50% , -50%);
+                .v-100{
+                    height:100vh;
+                }
+                .w-500{
+                    width:500px;
                 }
                 @media screen and (max-width:1025px){
                     .card{
@@ -67,8 +66,9 @@ if (isset($_POST['submit'])) {
         </style>
         <title>Login</title>
     </head>
-    <body class="login">
-                <div class="card">
+    <body class="login v-100 row no-gutters align-items-center justify-content-center">
+        
+                <div class="card w-500">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
@@ -76,31 +76,31 @@ if (isset($_POST['submit'])) {
                                 <form action="index.php" method="post">
                                     <div class="form-group">
                                         <label for="username">Username</label>
-                                        <input type="text" name="username" class="form-control">
+                                        <input type="text" name="username" class="form-control" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="password">Passowrd</label>
-                                        <input type="password" name="pass" class="form-control">
+                                        <input type="password" name="pass" class="form-control" required>
                                     </div>
                                     <button name="submit" type="submit" class="btn btn-success">Log in</button>
                                 </form>
                             </div>
                         </div>
                     </div>
-                        
+                    <?php if(isset($logfailed)): ?>
+                    <div class="alert alert-danger alert-dismissible fade show w-500 my-3" role="alert">
+                        <h5><?= $logfailed ?></h5>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <?php endif; ?>
                 </div>
-                <?php if(isset($logfailed)): ?>
-                <div class="alert alert-danger alert-dismissible fade show w-100 my-3" role="alert">
-                    <h5><?= $logfailed ?></h5>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <?php endif; ?>
+                
 
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/popper.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/index.js"></script>
     </body>
 </html>

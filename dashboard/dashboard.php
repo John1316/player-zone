@@ -46,7 +46,7 @@ $timeslots_id = mysqli_num_rows($time_count);
         <link rel="stylesheet" href="css/all.css">
         <link rel="stylesheet" href="css/dashboard_style.css">
 
-        <title>Dashboard</title>
+        <title>Home | Dashboard</title>
     </head>
     <body>
 

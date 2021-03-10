@@ -1,57 +1,70 @@
 <?php
 require_once('connection.php');
 session_start();
-if (isset($_POST['add'])) {
-    $name = $_POST['name']; 
-    $description = $_POST['description']; 
-    $quantites = $_POST['quantity']; 
-    $price = $_POST['price']; 
-    $playfieldImage = time() . '-' . $_FILES["addimg"]["name"];
-    $target_dir = "../images/";
-    $target_file = $target_dir . basename($playfieldImage);
-    move_uploaded_file($_FILES["addimg"]["tmp_name"], $target_file);     
+// if (isset($_POST['add'])) {    
+//     $name = $_POST['name']; 
+//     $description = $_POST['description']; 
+//     $quantites = $_POST['quantity']; 
+//     $price = $_POST['price']; 
+//     $playfieldImage = time() . '-' . $_FILES["addimg"]["name"];
+//     $target_dir = "../images/";
+//     $target_file = $target_dir . basename($playfieldImage);
+//     move_uploaded_file($_FILES["addimg"]["tmp_name"], $target_file);     
 
-$ins= "INSERT INTO playfields (name,des,quantity,image,price) VALUES('$name','$description','$quantites','$playfieldImage','$price')"; 
-    
-if(!mysqli_query($conn,$ins)){ 
-    die('Error:'. mysqli_error($conn));
-} else {
-    $added ="Your Playfield added successfully";
+//     $ins = "INSERT INTO playfields (name,des,quantity,image,price) VALUES('$name','$description','$quantites','$playfieldImage','$price')"; 
 
-}
+//     if(!mysqli_query($conn,$ins)){ 
+//         die('Error:'. mysqli_error($conn));
+//     } else {
+//         $added ="Your Playfield added successfully";
 
-}
+//     }
+
+// }
+
 if (isset($_POST['delete'])) {
     $id = $_POST['did'];
 
-$del= "DELETE FROM playfields WHERE id = '$id'"; 
+$del= "DELETE FROM requested_playfield WHERE requested_id = '$id'"; 
 
 if(!mysqli_query($conn,$del)){ 
     die('Error:'. mysqli_error($conn));
 } else {
-    $deleted ="Your playfield deleted successfully";
+    $deleted ="Your Requested playfield deleted successfully";
 }
 
 }
 if (isset($_POST['accept'])) {
-    $id = $_POST['acceptid'];
-$acceptname = $_POST['acceptname']; 
-$acceptdescription = $_POST['acceptdescription']; 
-$accepthours = $_POST['accepthours']; 
-$acceptprice = $_POST['acceptprice']; 
-$acceptImage = time() . '-' . $_FILES["acceptimg"]["name"];
-$target_dir = "../images/";
-$target_file = $target_dir . basename($acceptImage);
-move_uploaded_file($_FILES["acceptimg"]["tmp_name"], $target_file);     
+    $requested_id = $_POST['requested_id']; 
+    $acceptname = $_POST['acceptname']; 
+    $acceptdescription = $_POST['acceptdescription']; 
+    $accepthours = $_POST['accepthours']; 
+    $acceptprice = $_POST['acceptprice']; 
+    $acceptImage = time() . '-' . $_FILES["acceptimg"]["name"];
+    $target_dir = "../images/";
+    $target_file = $target_dir . basename($acceptImage);
+    move_uploaded_file($_FILES["acceptimg"]["tmp_name"], $target_file);     
 
 
-$accept= "INSERT INTO playfields (name,des,hours,image,price) VALUES('$acceptname','$acceptdescription','$accepthours','$acceptImage','$acceptprice')"; 
+    $accept= "INSERT INTO playfields (name,des,hours,image,price) VALUES('$acceptname','$acceptdescription','$accepthours','$acceptImage','$acceptprice')"; 
+    $update = "UPDATE requested_playfield SET status = 'approved' WHERE requested_id = '$requested_id' ";
 
-if(!mysqli_query($conn,$accept)){ 
-    die('Error:'. mysqli_error($conn));
-} else {
-    $accepted ="Your Playfield accepted successfully";
+        if(!mysqli_query($conn,$accept)){ 
+            die('Error:'. mysqli_error($conn));
+        } else {
+            $accepted ="Your Requested Playfield accepted successfully";
+        }
 }
+if (isset($_POST['accept'])) {
+    $requested_id = $_POST['requested_id']; 
+
+
+
+    $update = "UPDATE requested_playfield SET status = 'approved' WHERE requested_id = '$requested_id' ";
+
+        if(!mysqli_query($conn,$update)){ 
+            die('Error:'. mysqli_error($conn));
+        }
 }
 
 ?>
@@ -65,7 +78,7 @@ if(!mysqli_query($conn,$accept)){
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/all.css">
         <link rel="stylesheet" href="css/dashboard_style.css">
-        <title>Playfields</title>
+        <title>Requested Playfields</title>
     </head>
     <body>
 
@@ -102,7 +115,7 @@ if(!mysqli_query($conn,$accept)){
                                             do{
                                             ?>
                                                 <tr>
-                                                    <th scope="row"><?php echo $result ['requested_id']; ?></th>
+                                                    <td name="requested_id" scope="row"><?php echo $result ['requested_id']; ?></td>
                                                     <td><?php echo $result ['name']; ?></td>
                                                     <td><?php echo $result ['hours_available']; ?></td>
                                                     <td><?php echo substr($result['description'],0,50).'...' ?></td>
@@ -124,13 +137,15 @@ if(!mysqli_query($conn,$accept)){
                                                             <div class="container-fluid">
                                                                 <form action="" method="post" enctype="multipart/form-data">
                                                                     <div class="row">
+                                                                        <input type="hidden" name="requested_id" value="<?php echo $result ['requested_id']; ?>">
+
                                                                         <div class="col-6 my-2"><label for="acceptname">Playfield Name</label><input name="acceptname" type="text" value="<?php echo $result ['name']; ?>" class="form-control validate" required /></div>
                                                                         <div class="col-6 my-2"><label for="accepthours">Playfield Hours</label><input name="accepthours" type="number" value="<?php echo $result ['hours_available']; ?>" class="form-control validate" required /></div>
                                                                         <div class="col-6 my-2"><label for="acceptprice">Playfield Price</label><input name="acceptprice" type="number" value="<?php echo $result ['price']; ?>" class="form-control validate" required /></div>
                                                                         <div class="col-6 my-2"><label for="acceptimg">Playfield Image</label><input name="acceptimg" type="file" class="form-control validate" required /></div>
                                                                         <div class="col-12 my-2"><label for="img">Playfield Image <img class="w-100" height="300px" src="../images/<?php echo $result ['image']; ?>" alt=""></div>
                                                                         <div class="col-12 my-2"><label for="acceptdescription">Playfield Description</label><textarea name="acceptdescription" row="5" col="3" type="text" class="form-control validate" required><?php echo $result ['description']; ?></textarea></div>
-                                                                        <button type="submit" name="accept" class="btn btn-primary btn-block my-3">Accept Playfield</button>
+                                                                        <button type="submit" name="accept" class="btn btn-main btn-block my-3">Accept Playfield</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -150,9 +165,9 @@ if(!mysqli_query($conn,$accept)){
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="container-fluid">
-                                                                    <form action="playfields.php" method="post" enctype="multipart/form-data">
+                                                                    <form action="requestedplayfield.php" method="post" enctype="multipart/form-data">
                                                                         <div class="row">
-                                                                            <h6>Do you want to delete Playfield <input type="hidden" name="did" value="<?php echo $result ['id']; ?>"> <?php echo $result ['id']; ?> and his Name is <?php echo $result ['name']; ?></h6>
+                                                                            <h6>Do you want to delete Playfield <input type="hidden" name="did" value="<?php echo $result ['requested_id']; ?>"> <?php echo $result ['requested_id']; ?> and his Name is <?php echo $result ['name']; ?></h6>
                                                                             <button type="submit" name="delete" class="btn btn-danger btn-block my-3">Delete Playfield</button>
                                                                         </div>
                                                                     </form>
@@ -202,7 +217,7 @@ if(!mysqli_query($conn,$accept)){
         <!-- start models -->
         
 
-        <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <!-- <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -220,14 +235,14 @@ if(!mysqli_query($conn,$accept)){
                                 <div class="col-6 my-2"><label for="name">Playfield Price</label><input name="price" type="number" class="form-control validate" required /></div>
                                 <div class="col-6 my-2"><label for="name">Playfield Image</label><input name="addimg" type="file" class="form-control validate" required /></div>
                                 <div class="col-12 my-2"><label for="name">Playfield Description</label><textarea name="description" type="text" class="form-control validate" required /></textarea></div>
-                                <button type="submit" name="add" class="btn btn-primary btn-block my-3">Add Playfield</button>
+                                <button type="submit" name="add" class="btn btn-main btn-block my-3">Add Playfield</button>
                             </div>
                         </form>
                     </div>
                     </div>
                 </div>
             </div>
-        </div>    
+        </div>     -->
         <!-- end models -->
 
         <!--start footer-->

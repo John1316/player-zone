@@ -18,9 +18,8 @@
                     $play_time = $_POST['playtime'];
                     $time = $_POST['time_reservation'];
                     $visa = sha1($_POST['visa']);
-                    $total = $_POST['total'];
-                    
-                        $ins= "INSERT INTO reservation (playfield_id,users_id,hours,play_status,status,uprice,date_reservation,time_reservation,visa,total_price) VALUES(".$_SESSION['playfield_id'].",".$_SESSION['users_id'].",'$hours','$play_time','pending','$uprice','$date','$time','$visa','$total')";
+                        
+                        $ins= "INSERT INTO reservation (playfield_id,users_id,hours,play_status,status,uprice,date_reservation,time_reservation,visa) VALUES(".$_SESSION['playfield_id'].",".$_SESSION['users_id'].",'$hours','$play_time','pending','$uprice','$date','$time','$visa')";
         
                         if(!mysqli_query($conn,$ins)){ 
                             die('Error:'. mysqli_error($conn));
@@ -143,10 +142,10 @@
                                         <p>Visa :</p>
                                     </div>
                                     <div class="col-lg-6 col-12">
-                                        <input type="text" class="form-control form-control-sm" name="visa" placeholder="Visa">
+                                        <input type="text" class="form-control form-control-sm" name="visa" placeholder="Visa" required>
                                     </div>
                                     <div class="col-lg-4 col-12">
-                                        <input type="text" class="form-control form-control-sm" name="cvv" placeholder="cvv">
+                                        <input type="text" class="form-control form-control-sm" name="cvv" placeholder="cvv" required>
                                     </div>
                                 </div>
                                 <hr>
@@ -215,9 +214,16 @@
                             </button>
 
 
-                            <textarea class="form-control my-3" name="review" cols="10" rows="5" placeholder="Give Your Feedback ..."></textarea>
+                            <textarea class="form-control my-3" name="review" cols="10" rows="5" required placeholder="Give Your Feedback ..."></textarea>
                             <button <?php echo $disable ?>  type="submit" name="addreview" class="btn btn-main pull-right">add comment</button>
                         </div>
+
+
+
+                    </form>
+                </div>
+                <div class="col-12">
+                
                         <?php if(isset($success_review)): ?>
                         <div class="alert alert-success alert-dismissible m-auto my-3 w-75 fade show" role="alert">
                             <strong><?= $success_review ?></strong>
@@ -226,10 +232,6 @@
                             </button>
                         </div>
                         <?php endif; ?>
-
-
-
-                    </form>
                 </div>
             </div>
         </div>
@@ -240,7 +242,7 @@
 
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/index.js"></script>
     <script>
                 $(document).ready(function($){

@@ -37,16 +37,15 @@ if (isset($_POST['update'])) {
     $id = $_POST['pid'];
 $updatename = $_POST['updatename']; 
 $updatedescription = $_POST['updatedescription']; 
-$updatequantity = $_POST['updatequantity']; 
-$upprice = $_POST['updateprice']; 
-$updateprice = $_POST['newprice']; 
+$updatehours = $_POST['updatehours']; 
+$updateprice = $_POST['updateprice']; 
 $updateImage = time() . '-' . $_FILES["updateimg"]["name"];
 $target_dir = "../images/";
 $target_file = $target_dir . basename($updateImage);
 move_uploaded_file($_FILES["updateimg"]["tmp_name"], $target_file);     
 
 
-$up= "UPDATE playfields SET name='$updatename' , des='$updatedescription', hours='$updatequantity', image='$updateImage' ,price='$upprice' WHERE id='$id'"; 
+$up= "UPDATE playfields SET name='$updatename' , des='$updatedescription', hours='$updatehours', image='$updateImage' ,price='$updateprice' WHERE id='$id'"; 
 
 if(!mysqli_query($conn,$up)){ 
     die('Error:'. mysqli_error($conn));
@@ -130,12 +129,12 @@ if(!mysqli_query($conn,$up)){
                                                                     <div class="row">
                                                                         <input name="pid" type="hidden" value="<?php echo $result ['id']; ?>" class="form-control validate">
                                                                         <div class="col-6 my-2"><label for="name">Playfield Name</label><input name="updatename" type="text" value="<?php echo $result ['name']; ?>" class="form-control validate" required /></div>
-                                                                        <div class="col-6 my-2"><label for="name">Playfield Hours</label><input name="updatequantity" type="number" value="<?php echo $result ['quantity']; ?>" class="form-control validate" required /></div>
+                                                                        <div class="col-6 my-2"><label for="name">Playfield Hours</label><input name="updatehours" type="number" value="<?php echo $result ['hours']; ?>" class="form-control validate" required /></div>
                                                                         <div class="col-6 my-2"><label for="name">Playfield Price</label><input name="updateprice" type="number" value="<?php echo $result ['price']; ?>" class="form-control validate" required /></div>
                                                                         <div class="col-6 my-2"><label for="name">Playfield Image</label><input name="updateimg" type="file" class="form-control validate" required /></div>
-                                                                        <div class="col-12 my-2"><img src="../images/<?php echo $result ['image']; ?>"width="w-100" height="300px" alt=""></div>
+                                                                        <div class="col-12 my-2"><img src="../images/<?php echo $result ['image']; ?>" class="w-100" height="300px" alt=""></div>
                                                                         <div class="col-12 my-2"><label for="name">Playfield Description</label><textarea name="updatedescription" type="text" class="form-control validate" required><?php echo $result ['des']; ?></textarea></div>
-                                                                        <button type="submit" name="update" class="btn btn-primary btn-block my-3">Update Playfield</button>
+                                                                        <button type="submit" name="update" class="btn btn-main btn-block my-3">Update Playfield</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -221,11 +220,11 @@ if(!mysqli_query($conn,$up)){
                         <form action="playfields.php" method="post" enctype="multipart/form-data">
                             <div class="row">
                                 <div class="col-6 my-2"><label for="name">Playfield Name</label><input name="name" type="text" class="form-control validate" required /></div>
-                                <div class="col-6 my-2"><label for="name">Playfield Hours</label><input name="quantity" type="number" class="form-control validate" required /></div>
+                                <div class="col-6 my-2"><label for="name">Playfield Hours</label><input name="hours" type="number" class="form-control validate" required /></div>
                                 <div class="col-6 my-2"><label for="name">Playfield Price</label><input name="price" type="number" class="form-control validate" required /></div>
                                 <div class="col-6 my-2"><label for="name">Playfield Image</label><input name="addimg" type="file" class="form-control validate" required /></div>
                                 <div class="col-12 my-2"><label for="name">Playfield Description</label><textarea name="description" type="text" class="form-control validate" required /></textarea></div>
-                                <button type="submit" name="add" class="btn btn-primary btn-block my-3">Add Playfield</button>
+                                <button type="submit" name="add" class="btn btn-main btn-block my-3">Add Playfield</button>
                             </div>
                         </form>
                     </div>

@@ -10,8 +10,7 @@ if (isset($_POST['add'])) {
     $target_dir = "../images/";
     $target_file = $target_dir . basename($requestedImage);
     move_uploaded_file($_FILES["addimg"]["tmp_name"], $target_file);     
-// SELECT requested_playfield.requested_id, requested_playfield.owner_id, requested_playfield.name , requested_playfield.image, requested_playfield.description , requested_playfield.price ,requested_playfield.hours_available FROM requested_playfield INNER JOIN reservation on reservation.reservation_id = requested_playfield.owner_id INNER JOIN owner on requested_playfield.owner_id = owner.owner_id where requested_playfield.owner_id = '1'
-    $ins= "INSERT INTO requested_playfield (owner_id,name,description,hours_available,image,price) VALUES(".$_SESSION['owner_id'].",'$name','$description','$hours_available','$requestedImage','$price')"; 
+    $ins= "INSERT INTO requested_playfield (owner_id,name,status,description,hours_available,image,price) VALUES(".$_SESSION['owner_id'].",'$name','pending','$description','$hours_available','$requestedImage','$price')"; 
     
     if(!mysqli_query($conn,$ins)){ 
         die('Error:'. mysqli_error($conn));
@@ -55,12 +54,13 @@ if (isset($_POST['add'])) {
                         <div class="row no-gutters">
                             <div class="col-12">
                                 <div class="table-responsive">
-                                    <table class="table table-striped">
+                                    <table class="table table-striped" style="min-height:550px;">
                                         <thead class="thead-dark">
                                             <tr>
                                                 <th scope="col">ID</th>
                                                 <th scope="col">Name</th>
                                                 <th scope="col">Hours available</th>
+                                                <th scope="col">Status</th>
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Image</th>
                                                 <th scope="col">Price</th>
@@ -68,24 +68,34 @@ if (isset($_POST['add'])) {
                                         </thead>
                                         <tbody>
                                             <?php
-                                            require_once('connection.php');
-                                            $requested_playfields = "SELECT requested_playfield.requested_id, requested_playfield.owner_id, requested_playfield.name , requested_playfield.image, requested_playfield.description , requested_playfield.price ,requested_playfield.hours_available FROM requested_playfield INNER JOIN reservation on reservation.reservation_id = requested_playfield.owner_id INNER JOIN owner on requested_playfield.owner_id = owner.owner_id where requested_playfield.owner_id = ".$_SESSION["owner_id"]." ";
-                                            $query = mysqli_query($conn,$requested_playfields) or die("Error:".mysqli_error($conn)) ;
-                                            $result= mysqli_fetch_array($query);
-                                            do{
-                                            ?>
+                                                require_once('connection.php');
+                                                $status = "";
+                                                $requested_playfields = "SELECT requested_playfield.requested_id, requested_playfield.owner_id, requested_playfield.name , requested_playfield.status  ,  requested_playfield.image, requested_playfield.description , requested_playfield.price ,requested_playfield.hours_available FROM requested_playfield INNER JOIN owner on requested_playfield.owner_id = owner.owner_id where requested_playfield.owner_id  = ".$_SESSION["owner_id"]." ";
+                                                $result = mysqli_query($conn, $requested_playfields);
+                                            
+
+                                                if (mysqli_num_rows($result) > 0) {
+                                                    while ($owner_reservation = mysqli_fetch_array($result)) {
+                                                        if ($owner_reservation['status'] == 'pending') {
+                                                            $status = "<span class='btn btn-danger'>Pending</span>";
+                                                        } else {
+                                                            $status = "<span class='btn btn-success'>Approved</span>";
+                                                        } ?>
+                                            
                                                 <tr>
-                                                    <th scope="row"><?php echo $result ['requested_id']; ?></th>
-                                                    <td><?php echo $result ['name']; ?></td>
-                                                    <td><?php echo $result ['hours_available']; ?></td>
-                                                    <td><?php echo substr($result['description'],0,50).'...' ?></td>
-                                                    <td><img src="../images/<?php echo $result ['image']; ?>" height="100px" width="100px" alt=""></td>
-                                                    <td><?php echo $result ['price']; ?></td>
+                                                    <th scope="row"><?php echo $owner_reservation['requested_id']; ?></th>
+                                                    <td><?php echo $owner_reservation['name']; ?></td>
+                                                    <td><?php echo $owner_reservation['hours_available']; ?></td>
+                                                    <td><?php echo $status ?></td>
+                                                    
+                                                    <td><?php echo substr($owner_reservation['description'], 0, 50).'...' ?></td>
+                                                    <td><img src="../images/<?php echo $owner_reservation['image']; ?>" height="100px" width="100px" alt=""></td>
+                                                    <td><?php echo $owner_reservation['price']; ?></td>
                                                 </tr>
                                                 
                                             <?php
-                                            }
-                                            while($result=mysqli_fetch_array($query));
+                                                    }
+                                                }
                                             ?>
                                         </tbody>
                                     </table>
@@ -109,9 +119,9 @@ if (isset($_POST['add'])) {
         
 
         <div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content">
-                    <div class="modal-header">
+                    <div class="modal-header ">
                         <h5 class="modal-title" id="exampleModalCenterTitle">Add Playfield</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -126,7 +136,7 @@ if (isset($_POST['add'])) {
                                 <div class="col-6 my-2"><label for="name">Playfield Price</label><input name="price" type="number" class="form-control validate" required /></div>
                                 <div class="col-6 my-2"><label for="name">Playfield Image</label><input name="addimg" type="file" class="form-control validate" required /></div>
                                 <div class="col-12 my-2"><label for="name">Playfield Description</label><textarea name="description" type="text" class="form-control validate" required /></textarea></div>
-                                <button type="submit" name="add" class="btn btn-primary btn-block my-3">Add Playfield</button>
+                                <button type="submit" name="add" class="btn btn-main btn-block my-3">Add Playfield</button>
                             </div>
                         </form>
                     </div>

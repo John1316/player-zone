@@ -14,9 +14,9 @@ session_start();
     <link rel="shortcut icon" href="images/logo2.png" type="image/x-icon">
     <style>
         .card img{
-            
             height:250px;
-            
+            object-fit: cover;
+            object-position: center;
         }
     </style>
     <title>Our Playfield</title>

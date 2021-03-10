@@ -20,23 +20,7 @@ if(isset($_POST['registsubmit']))
     elseif (mysqli_num_rows($ph_conn) >0){
         $phonerror = "Your phone already existed";
     }
-    elseif ((empty($fname))){
-        $empty = "Please fill this field it's important for us";
-    }
-
-    elseif ((empty($uname))){ 
-        $empty= "Please fill this field it's important for us";
-    }
-
-    elseif ((empty($phone))){
-        $empty = "Please fill this field it's important for us";
-    }
-    elseif ((empty($pass))){
-        $empty = "Please fill this field it's important for us";
-    }
-    elseif (strlen($_POST['password']) < 5) {
-        $passless = "Your pass is less than 6 try again";
-    }
+    
     else 
     {
         $ins= "INSERT INTO users (full_name,uname,phone,pass) VALUES('$fname','$uname','$phone','$pass')";
@@ -104,11 +88,11 @@ if (isset($_POST['loginsubmit'])) {
                                         <form action="" method="post">
                                             <div class="form-group">
                                                 <label for="username">Username</label>
-                                                <input type="text" name="username" class="form-control">
+                                                <input type="text" name="username" class="form-control" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="password">Passowrd</label>
-                                                <input type="password" name="pass" class="form-control">
+                                                <input type="password" name="pass" class="form-control" required>
                                             </div>
                                             <button name="loginsubmit" type="submit" class="btn btn-success">Log in</button>
                                         </form>
@@ -118,23 +102,23 @@ if (isset($_POST['loginsubmit'])) {
                                         <form action="login.php" method="post">
                                             <div class="form-group">
                                                 <label for="fullname">Full Name</label>
-                                                <input type="text" name="fullname" class="form-control">
+                                                <input type="text" name="fullname" class="form-control" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="username">Username</label>
-                                                <input type="text" name="uname" class="form-control">
+                                                <input type="text" name="uname" class="form-control" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="phone">Phone</label>
-                                                <input type="number" name="phone" class="form-control">
+                                                <input type="number" name="phone" class="form-control" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="password">Passowrd</label>
-                                                <input type="password" name="password" class="form-control">
+                                                <input type="password" name="password" class="form-control" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="cpassword">Confirm Passowrd</label>
-                                                <input type="password" name="cpassword" class="form-control">
+                                                <input type="password" name="cpassword" class="form-control" required>
                                             </div>
                                             <button name="registsubmit" class="btn btn-success">Register</button>
                                         </form>
@@ -182,14 +166,7 @@ if (isset($_POST['loginsubmit'])) {
                             </button>
                         </div>
                         <?php endif; ?>
-                        <?php if(isset($empty)): ?>
-                        <div class="alert alert-danger alert-dismissible fade show w-100 my-3" role="alert">
-                            <h5><?= $empty ?></h5>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <?php endif; ?>
+                        
                     </div>
                 </div>
             </div>
@@ -197,7 +174,7 @@ if (isset($_POST['loginsubmit'])) {
 
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/popper.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         <script src="js/index.js"></script>
     </body>
 </html>

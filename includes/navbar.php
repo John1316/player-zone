@@ -1,16 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <meta name="Description" content="Enter your description here"/>
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/all.min.css">
-        <link rel="stylesheet" href="css/style.css">
-        <title>Title</title>
-    </head>
-    <body>
+
         <nav class="navbar navbar-expand-lg navbar-dark bg-main fixed-top">
             <div class="container">
                 <a class="navbar-brand" href="index.php">Player Zone</a>
@@ -25,6 +13,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="playfields.php">Playfields</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://localhost/Player-zone/owner">Is you owner?</a>
                         </li>
                         <?php
                         if (!isset($_SESSION['username'])) {
@@ -48,8 +39,3 @@
                 </div>
             </div>
         </nav>
-        <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-    </body>
-</html>
